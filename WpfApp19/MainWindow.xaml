@@ -1,0 +1,72 @@
+﻿<Window x:Class="TicTacToe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TicTacToe"
+        Title="Game App: 'Tic-Tac-Toe' 2024" Height="400" Width="600">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <TabControl Foreground="Black">
+            <TabControl.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF898E8D"/>
+                    <GradientStop Color="#FF7F88AB" Offset="1"/>
+                </LinearGradientBrush>
+            </TabControl.Background>
+            <TabItem Header="Игра" Background="#FF97AFB5">
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF898E8D"/>
+                            <GradientStop Color="#FF7F88AB" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Application - Tic Tac Toe" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Showcard Gothic" Foreground="#FF9ABDA0" FontWeight="Bold" TextDecorations="Underline" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Content="✕" IsChecked="{Binding IsCrossSelected}" Margin="5" Background="#FFB5B5B5" BorderBrush="#FF232323" Foreground="Red" FontFamily="Bahnschrift Condensed" FontSize="14"/>
+                        <RadioButton Content="○" IsChecked="{Binding IsCircleSelected}" Margin="5" Background="#FFB5B5B5" BorderBrush="#FF232323" FontFamily="Bell MT" FontSize="14" Foreground="Red"/>
+                    </StackPanel>
+                    <ItemsControl Grid.Row="2" ItemsSource="{Binding Board}" Cursor="Cross" Foreground="Black" BorderBrush="Black">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="3" Columns="3"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding MarkDisplay}" Command="{Binding DataContext.CellClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}" Width="50" Height="50" Margin="5" IsEnabled="{Binding DataContext.IsCellEnabled, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Grid.Row="1" Content="New Game" Command="{Binding NewGameCommand}" HorizontalAlignment="Center" Margin="0,36,0,31" Width="121" BorderBrush="Black" Foreground="White" FontFamily="Bahnschrift SemiBold Condensed" FontSize="24">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF709092"/>
+                                <GradientStop Color="#FF0061FF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Справка" Background="#FF97AFB5">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBox TextWrapping="Wrap" IsReadOnly="True" Height="155" Text="Добро пожаловать в игру &quot;Крестики-Нолики!&quot;. Данное приложение является классической игрой, где за основу противника всегда выступает искусственный интеллект. Перед началом игры рекомендуется выбрать желаемую метку - &quot;X&quot; либо &quot;O&quot;. Для того, чтобы начать игру, дайте свой ход, нажав на любую пустую ячейку. Искусственный интеллект после Вас сделает свой ход. Попытайтесь обыграть его! Вы можете нажать &quot;New Game&quot; для начала новый игры до завершения текущей. 
+                                 
+                                 Работу выполнил студент: Афанасьев Дмитрий Александрович. 
+                                 
+                                 Группа: 9/2-РПО-22/1." TextChanged="TextBox_TextChanged" Background="#FF98978E" Foreground="White" FontFamily="Bahnschrift SemiBold" SelectionBrush="Black" Cursor="Help"/>
+                        <Image Source="/information.jpg" Stretch="Uniform" Margin="10" Height="126" Width="218" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
